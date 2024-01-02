@@ -2,4 +2,6 @@
 
 set -euo pipefail
 
-kind create cluster --name dev
+CLUSTER=$1
+
+kind create cluster --name $CLUSTER
