@@ -1,8 +1,14 @@
-init-dev:
+init-env:
 	sh scripts/kind-setup.sh dev
 
-deploy-dev-eth:
-	sh scripts/kustomize-apply.sh kustomize/dev/ethereum
+deploy:
+	sh scripts/deploy.sh kustomize/dev/ethereum
 
-clobber-dev-eth:
-	sh scripts/clobber.sh kustomize/dev/ethereum
+deploy-dev:
+	sh scripts/deploy-dev.sh kustomize/dev/ethereum
+
+clobber:
+	sh scripts/clobber.sh ethereum
+
+generate-jwt:
+	sh scripts/generate_jwt.sh
