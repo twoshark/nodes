@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scripts
+data:
+  geth-start.sh: |
+    #!/bin/sh
+    geth \
+    --datadir /root/.ethereum \
+    --syncmode snap \
+    --gcmode full \
+    --sepolia \
+    --port 30303 \
+    --authrpc.jwtsecret /jwt/jwt.hex \
+    --authrpc.port 8551 \
+    --authrpc.vhosts "*" \
+    --http \
+    --http.addr 0.0.0.0 \
+    --http.port 8545 \
+    --http.vhosts "*" \
+    --ws \
+    --ws.addr 0.0.0.0 \
+    --ws.port 8546 \
+    --db.engine pebble \
+    --verbosity 3 \
+    --metrics \
+    --metrics.addr 0.0.0.0 \
+    --metrics.port 6060 \
+    --http.api "eth,net,web3" \
+    --ws.api "eth,net,web3" \
+    --discv5
+  lighthouse-start.sh: |
+    #!/bin/sh
+    lighthouse beacon \
+    --network sepolia \
+    --datadir /root/.lighthouse  \
+    --execution-endpoint http://execution:8551 \
+    --checkpoint-sync-url https://sepolia.beaconstate.info \
+    --execution-jwt /jwt/jwt.hex
+

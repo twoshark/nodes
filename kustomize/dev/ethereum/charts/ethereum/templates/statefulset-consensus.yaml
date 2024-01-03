@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lighthouse
+spec:
+  serviceName: "lighthouse"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lighthouse
+  template:
+    metadata:
+      labels:
+        app: lighthouse
+    spec:
+      containers:
+      - name: lighthouse
+        image: sigp/lighthouse:latest  # Use the appropriate Lighthouse image version
+        command: ["/bin/sh"]
+        args: ["-c", "/scripts/start.sh"]
+        ports:
+        - containerPort: 9000  # Lighthouse Beacon Node API port
+          name: rpc
+        - containerPort: 5052  # Lighthouse Beacon Node p2p port
+          name: p2p
+        volumeMounts:
+        - name: consensus-chain
+          mountPath: /root/.lighthouse
+        - name: scripts
+          mountPath: /scripts/start.sh
+          subPath: lighthouse-start.sh
+        - name: jwt-secret
+          mountPath: /jwt/jwt.hex
+          subPath: jwt_secret
+      volumes:
+      - name: scripts
+        configMap:
+          defaultMode: 0550
+          name: scripts
+      - name: jwt-secret
+        secret:
+          secretName: engine-jwt-secret
+  volumeClaimTemplates:
+  - metadata:
+      name: consensus-chain
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi  # Adjust the storage size as needed

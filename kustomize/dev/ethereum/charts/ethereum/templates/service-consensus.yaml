@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lighthouse
+spec:
+  selector:
+    app: lighthouse
+  ports:
+    - name: rpc
+      protocol: TCP
+      port: 9000  
+      targetPort: 9000
+    - name: p2p
+      protocol: TCP
+      port: 5052  
+      targetPort: 5052
