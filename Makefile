@@ -1,5 +1,8 @@
-init-env:
-	sh scripts/kind-setup.sh dev
+init-kind:
+	sh scripts/init-kind.sh dev
+
+teardown-kind:
+	sh scripts/teardown-kind.sh dev
 
 deploy:
 	sh scripts/deploy.sh kustomize/dev/ethereum
