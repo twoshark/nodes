@@ -7,6 +7,3 @@ helmCharts:
   - name: ethereum
     namespace: ethereum
     valuesFile: charts/ethereum/values.yaml
-
-resources:
-  - base/namespace.yaml

@@ -11,6 +11,7 @@ data:
     --gcmode full \
     --sepolia \
     --port 30303 \
+    --authrpc.addr 0.0.0.0 \
     --authrpc.jwtsecret /jwt/jwt.hex \
     --authrpc.port 8551 \
     --authrpc.vhosts "*" \
