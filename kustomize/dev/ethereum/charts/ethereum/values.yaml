@@ -1,0 +1,11 @@
+# Default values for ethereum.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+execution:
+  replicas: 1
+  image:
+    repo: ethereum/client-go
+    tag: v1.13.8
+    pullPolicy: IfNotPresent
+  
