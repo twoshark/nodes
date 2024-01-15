@@ -30,7 +30,7 @@ data:
     --http.api "eth,net,web3" \
     --ws.api "eth,net,web3" \
     --discv5
-  lighthouse-start.sh: |
+  consensus-start.sh: |
     #!/bin/sh
     lighthouse beacon \
     --network sepolia \

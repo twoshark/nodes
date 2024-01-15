@@ -1,34 +1,34 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: lighthouse
+  name: consensus
 spec:
-  serviceName: "lighthouse"
+  serviceName: "consensus"
   replicas: 1
   selector:
     matchLabels:
-      app: lighthouse
+      app: consensus
   template:
     metadata:
       labels:
-        app: lighthouse
+        app: consensus
     spec:
       containers:
-      - name: lighthouse
-        image: sigp/lighthouse:latest  # Use the appropriate Lighthouse image version
+      - name: consensus
+        image: sigp/lighthouse:latest
         command: ["/bin/sh"]
         args: ["-c", "/scripts/start.sh"]
         ports:
-        - containerPort: 9000  # Lighthouse Beacon Node API port
+        - containerPort: 9000
           name: rpc
-        - containerPort: 5052  # Lighthouse Beacon Node p2p port
+        - containerPort: 5052
           name: p2p
         volumeMounts:
         - name: consensus-chain
           mountPath: /root/.lighthouse
         - name: scripts
           mountPath: /scripts/start.sh
-          subPath: lighthouse-start.sh
+          subPath: consensus-start.sh
         - name: jwt-secret
           mountPath: /jwt/jwt.hex
           subPath: jwt_secret

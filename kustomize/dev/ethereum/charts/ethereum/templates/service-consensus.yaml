@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: lighthouse
+  name: consensus
 spec:
   selector:
-    app: lighthouse
+    app: consensus
   ports:
     - name: rpc
       protocol: TCP
