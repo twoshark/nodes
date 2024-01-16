@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: execution
+spec:
+  serviceName: execution
+  replicas: {{ .Values.execution.replicas | default 1}}
+  selector:
+    matchLabels:
+      app: execution
+  template:
+    metadata:
+      labels:
+        app: execution
+    spec:
+      containers:
+      - name: execution
+        image: {{.Values.execution.image.repo}}:{{ .Values.execution.image.tag }}
+        command: ["/bin/sh"]
+        args: ["-c", "/scripts/start.sh"]
+        ports:
+        - containerPort: 30303
+          name: p2p
+        - containerPort: 8545
+          name: http
+        - containerPort: 8546
+          name: ws
+        - containerPort: 8551
+          name: engine
+        volumeMounts:
+        - name: chain
+          mountPath: /root/.ethereum
+        - name: scripts
+          mountPath: /scripts/start.sh
+          subPath: geth-start.sh
+        - name: jwt-secret
+          mountPath: /jwt/jwt.hex
+          subPath: jwt_secret
+      volumes:
+      - name: scripts
+        configMap:
+          defaultMode: 0550
+          name: scripts
+      - name: jwt-secret
+        secret:
+          secretName: engine-jwt-secret
+  volumeClaimTemplates:
+  - metadata:
+      name: chain
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 10Gi  # Adjust the storage size as needed

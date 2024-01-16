@@ -1,0 +1,5 @@
+apiVersion: v2
+name: ethereum
+description: Ethereum Node Deployment
+type: application
+version: 0.1.0
